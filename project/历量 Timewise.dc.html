@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  html, body { margin: 0; padding: 0; }
+  ::-webkit-scrollbar { width: 0; height: 0; }
+  @keyframes amb { 0%{transform:translate(0,0)} 50%{transform:translate(-2.5%,-1.8%)} 100%{transform:translate(0,0)} }
+  @keyframes flowband { 0%{transform:translateX(-6%) translateY(0)} 50%{transform:translateX(4%) translateY(-2%)} 100%{transform:translateX(-6%) translateY(0)} }
+  @keyframes floatup { 0%{opacity:.15;transform:translateY(26px) scale(.96)} 18%{opacity:.85} 80%{opacity:.85} 100%{opacity:.15;transform:translateY(-34px) scale(1.02)} }
+  @keyframes ripple { 0%{transform:scale(.35);opacity:.55} 100%{transform:scale(2.6);opacity:0} }
+  @keyframes lampglow { 0%,100%{opacity:.55;transform:scale(1)} 50%{opacity:1;transform:scale(1.14)} }
+  @keyframes fadeup { from{transform:translateY(14px)} to{transform:translateY(0)} }
+  @keyframes fadein { from{opacity:1} to{opacity:1} }
+  @keyframes rise { from{transform:translateY(24px) scale(.97)} to{transform:translateY(0) scale(1)} }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  @keyframes breathe { 0%,100%{opacity:.4} 50%{opacity:.85} }
+  @keyframes bubblein { from{transform:translateY(8px)} to{transform:translateY(0)} }
+  @keyframes pageturn { 0%{transform:rotateY(0)} 100%{transform:rotateY(-158deg)} }
+  @keyframes shimmer { 0%{background-position:-180% 0} 100%{background-position:180% 0} }
+  @keyframes dots { 0%,80%,100%{opacity:.25} 40%{opacity:1} }
+  @keyframes bookfloat { 0%,100%{transform:translateX(-50%) translateY(0) rotateX(8deg)} 50%{transform:translateX(-50%) translateY(-9px) rotateX(8deg)} }
+  @keyframes travel { from{offset-distance:0%;opacity:0} 8%{opacity:1} 92%{opacity:1} to{offset-distance:100%;opacity:0} }
+  @keyframes wmdrift { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-52%,-48%) scale(1.04)} }
+  @keyframes nodepulse { 0%,100%{opacity:.45;box-shadow:0 0 6px 1px rgba(207,222,240,0.4)} 50%{opacity:1;box-shadow:0 0 14px 4px rgba(207,222,240,0.7)} }
+  @keyframes grain { 0%{transform:translate(0,0)} 100%{transform:translate(-36px,28px)} }
+  @keyframes beam { 0%,100%{opacity:.4} 50%{opacity:.85} }
+  @keyframes inputglow { 0%,100%{box-shadow:0 0 0 1px rgba(143,166,196,0.2),0 0 26px -10px rgba(207,222,240,0.4)} 50%{box-shadow:0 0 0 1px rgba(207,222,240,0.42),0 0 44px -6px rgba(207,222,240,0.6)} }
+  @keyframes aura { 0%,100%{opacity:.45;transform:translate(-50%,-50%) scale(1)} 50%{opacity:.85;transform:translate(-50%,-50%) scale(1.07)} }
+</style>
+</helmet>
+
+<div style="min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center;background:radial-gradient(120% 90% at 30% 12%, #1a232e 0%, #121821 42%, #0c1016 100%);font-family:'Noto Serif SC',serif;padding:28px 0;">
+
+  <div style="position:absolute;width:520px;height:520px;left:8%;top:6%;background:radial-gradient(circle,rgba(143,166,196,0.16),transparent 70%);filter:blur(20px);animation:amb 18s ease-in-out infinite;pointer-events:none;"></div>
+  <div style="position:absolute;width:420px;height:420px;right:6%;bottom:8%;background:radial-gradient(circle,rgba(232,207,160,0.07),transparent 70%);filter:blur(18px);animation:amb 22s ease-in-out infinite reverse;pointer-events:none;"></div>
+
+  <div style="position:relative;width:390px;height:844px;border-radius:46px;overflow:hidden;background:linear-gradient(180deg,#0d121a 0%,#0b0f15 100%);box-shadow:0 40px 90px -20px rgba(0,0,0,0.75),0 0 0 1px rgba(255,255,255,0.05),inset 0 0 0 1px rgba(255,255,255,0.02);">
+
+    <!-- status bar -->
+    <div style="position:absolute;top:0;left:0;right:0;height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:60;color:rgba(230,233,238,0.82);font-family:'Cormorant Garamond',serif;font-weight:600;font-size:15px;pointer-events:none;">
+      <span style="letter-spacing:.5px;">9:41</span>
+      <div style="display:flex;gap:5px;align-items:center;font-size:11px;letter-spacing:1px;">▪▪▪ ◗ ▭</div>
+    </div>
+
+    <!-- ============ HOME ============ -->
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;animation:fadein .6s ease;overflow:hidden;">
+      <!-- giant Timewise watermark (底纹) -->
+      <div style="position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:128px;letter-spacing:-3px;color:rgba(207,222,240,0.055);white-space:nowrap;pointer-events:none;animation:wmdrift 20s ease-in-out infinite;">Timewise</div>
+      <!-- drifting grain texture -->
+      <div style="position:absolute;inset:-46px;background-image:radial-gradient(rgba(207,222,240,0.11) 1px,transparent 1.5px);background-size:34px 34px;opacity:.45;animation:grain 17s linear infinite alternate;pointer-events:none;"></div>
+      <!-- flowing light bands -->
+      <div style="position:absolute;top:-12%;left:-30%;width:160%;height:55%;background:linear-gradient(110deg,transparent 10%,rgba(143,166,196,0.16) 40%,rgba(207,222,240,0.28) 52%,rgba(143,166,196,0.12) 64%,transparent 92%);filter:blur(28px);transform:rotate(-18deg);animation:flowband 16s ease-in-out infinite;"></div>
+      <div style="position:absolute;top:30%;left:-20%;width:150%;height:34%;background:linear-gradient(100deg,transparent 20%,rgba(232,207,160,0.10) 50%,transparent 80%);filter:blur(24px);transform:rotate(-12deg);animation:flowband 22s ease-in-out infinite reverse;"></div>
+
+      <!-- the time river -->
+      <svg viewBox="0 0 390 520" preserveAspectRatio="none" style="position:absolute;top:0;left:0;width:100%;height:62%;pointer-events:none;">
+        <defs><linearGradient id="riv" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#8fa6c4" stop-opacity="0"></stop>
+          <stop offset="0.35" stop-color="#8fa6c4" stop-opacity="0.42"></stop>
+          <stop offset="0.78" stop-color="#cfdef0" stop-opacity="0.72"></stop>
+          <stop offset="1" stop-color="#ecf0f7" stop-opacity="0.22"></stop>
+        </linearGradient></defs>
+        <path d="M150 40 C 250 110, 110 180, 195 250 C 265 305, 150 345, 205 430" fill="none" stroke="#cfdef0" stroke-opacity="0.07" stroke-width="16" stroke-linecap="round" style="filter:blur(6px);"></path>
+        <path d="M150 40 C 250 110, 110 180, 195 250 C 265 305, 150 345, 205 430" fill="none" stroke="url(#riv)" stroke-width="2.4" stroke-linecap="round"></path>
+      </svg>
+
+      <!-- traveling light + 公元 year nodes -->
+      <div style="position:absolute;inset:0;pointer-events:none;">
+        <div style="position:absolute;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle,#fff6e0,#e8cfa0);box-shadow:0 0 14px 5px rgba(232,207,160,0.7);offset-path:path('M150 40 C 250 110, 110 180, 195 250 C 265 305, 150 345, 205 430');offset-rotate:0deg;animation:travel 8s linear infinite;"></div>
+        <div style="position:absolute;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,#dfeaf8,#9fb4d0);box-shadow:0 0 10px 3px rgba(159,180,208,0.6);offset-path:path('M150 40 C 250 110, 110 180, 195 250 C 265 305, 150 345, 205 430');offset-rotate:0deg;animation:travel 8s linear infinite 4s;"></div>
+        <div style="position:absolute;left:31%;top:4.5%;display:flex;align-items:center;gap:8px;"><span style="width:6px;height:6px;border-radius:50%;background:rgba(143,166,196,0.55);animation:nodepulse 5s ease-in-out infinite;"></span><span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;color:rgba(143,166,196,0.42);">公元前500年</span></div>
+        <div style="position:absolute;left:51%;top:21%;display:flex;align-items:center;gap:8px;"><span style="width:7px;height:7px;border-radius:50%;background:rgba(180,198,222,0.7);animation:nodepulse 5s ease-in-out infinite 1s;"></span><span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;color:rgba(180,198,222,0.55);">公元元年</span></div>
+        <div style="position:absolute;left:38%;top:37%;display:flex;align-items:center;gap:8px;"><span style="width:7px;height:7px;border-radius:50%;background:rgba(207,222,240,0.85);animation:nodepulse 5s ease-in-out infinite 2s;"></span><span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;color:rgba(207,222,240,0.72);">公元1500年</span></div>
+        <div style="position:absolute;left:55%;top:49%;display:flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,#fff0cf,#e0b876);box-shadow:0 0 12px 3px rgba(232,207,160,0.6);animation:nodepulse 4s ease-in-out infinite;"></span><span style="font-family:'Noto Serif SC',serif;font-size:11px;letter-spacing:2px;color:rgba(240,230,207,0.88);">今天 · 你</span></div>
+      </div>
+
+      <!-- refined open book of light -->
+      <div style="position:absolute;top:62px;left:50%;width:226px;height:118px;perspective:1100px;transform:translateX(-50%);animation:bookfloat 7s ease-in-out infinite;">
+        <div style="position:absolute;left:50%;top:-28px;transform:translateX(-50%);width:240px;height:150px;background:radial-gradient(ellipse at 50% 55%,rgba(207,222,240,0.42),transparent 66%);filter:blur(16px);"></div>
+        <div style="position:absolute;left:50%;top:-64px;transform:translateX(-50%);width:64px;height:78px;background:linear-gradient(180deg,transparent,rgba(255,247,224,0.30));filter:blur(7px);clip-path:polygon(42% 100%,58% 100%,76% 0,24% 0);animation:beam 5s ease-in-out infinite;"></div>
+        <div style="position:absolute;right:50%;top:5%;width:47%;height:90%;transform-origin:right center;transform:rotateY(26deg);background:linear-gradient(105deg,rgba(236,238,243,0.92),rgba(176,190,210,0.42));border-radius:5px 1px 1px 5px;box-shadow:-9px 7px 22px rgba(0,0,0,0.4);overflow:hidden;"><div style="position:absolute;inset:18% 14% 16% 20%;background:repeating-linear-gradient(180deg,rgba(40,52,70,0.20) 0 1px,transparent 1px 8px);"></div></div>
+        <div style="position:absolute;left:50%;top:5%;width:47%;height:90%;transform-origin:left center;transform:rotateY(-26deg);background:linear-gradient(255deg,rgba(236,238,243,0.92),rgba(176,190,210,0.42));border-radius:1px 5px 5px 1px;box-shadow:9px 7px 22px rgba(0,0,0,0.4);overflow:hidden;"><div style="position:absolute;inset:18% 20% 16% 14%;background:repeating-linear-gradient(180deg,rgba(40,52,70,0.20) 0 1px,transparent 1px 8px);"></div></div>
+        <div style="position:absolute;left:50%;top:2%;width:2px;height:96%;transform:translateX(-50%);background:linear-gradient(180deg,transparent,rgba(255,250,238,0.95),transparent);box-shadow:0 0 20px 6px rgba(255,244,214,0.5);"></div>
+      </div>
+
+      <div style="position:absolute;bottom:80px;left:0;right:0;padding:0 36px 0;text-align:center;">
+        <div style="font-size:62px;font-weight:600;letter-spacing:10px;color:#f1f3f7;line-height:1;text-indent:10px;margin-bottom:18px;text-shadow:0 0 30px rgba(207,222,240,0.25);">历量</div>
+        <div style="font-size:14px;font-weight:300;line-height:1.9;color:rgba(214,220,228,0.78);margin-bottom:6px;max-width:300px;margin-left:auto;margin-right:auto;">来自历史长河的答案之书。<br>那些走过黑夜的人，给今天的你留了一盏灯。</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;letter-spacing:1.5px;color:rgba(143,166,196,0.7);margin-bottom:38px;">Ask the present. Answer with time.</div>
+
+        <button onClick="{{ goInput }}" style="width:100%;padding:17px;border:none;border-radius:16px;background:linear-gradient(180deg,#e9edf3,#c9d4e2);color:#13202e;font-family:'Noto Serif SC',serif;font-size:17px;font-weight:600;letter-spacing:3px;cursor:pointer;box-shadow:0 14px 36px -10px rgba(207,222,240,0.5);">开 始 提 问</button>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ============ INPUT ============ -->
+    <sc-if value="{{ isInput }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;padding:64px 26px 26px;display:flex;flex-direction:column;animation:fadeup .5s ease;overflow:hidden;">
+      <button onClick="{{ goHome }}" style="position:absolute;top:52px;left:18px;background:none;border:none;color:rgba(214,220,228,0.6);font-size:22px;cursor:pointer;line-height:1;">‹</button>
+      <div style="position:absolute;top:-10%;right:-20%;width:120%;height:40%;background:linear-gradient(120deg,transparent,rgba(143,166,196,0.12),transparent);filter:blur(24px);transform:rotate(-14deg);"></div>
+
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;color:rgba(143,166,196,0.7);margin-bottom:6px;">Tell me what troubles you</div>
+      <div style="font-size:27px;font-weight:500;color:#f1f3f7;letter-spacing:2px;margin-bottom:6px;">告诉我你的困惑</div>
+      <div style="font-size:13px;font-weight:300;color:rgba(214,220,228,0.6);line-height:1.7;margin-bottom:20px;">写下此刻最困住你的问题。<br>不必工整，把它交给时间。</div>
+
+      <div style="position:relative;">
+        <div style="position:absolute;left:50%;top:50%;width:92%;height:82%;background:radial-gradient(ellipse,rgba(143,166,196,0.20),transparent 70%);filter:blur(22px);pointer-events:none;animation:aura 6s ease-in-out infinite;"></div>
+        <textarea value="{{ inputText }}" onInput="{{ onInput }}" placeholder="此刻，最困住你的是什么？……" style="position:relative;width:100%;height:228px;resize:none;background:rgba(255,255,255,0.05);border:1px solid rgba(143,166,196,0.25);border-radius:18px;padding:20px;color:#eef1f5;font-family:'Noto Serif SC',serif;font-size:17px;line-height:1.95;outline:none;caret-color:#f0d9a0;animation:inputglow 5s ease-in-out infinite;"></textarea>
+      </div>
+
+      <div style="font-size:11px;letter-spacing:2px;color:rgba(143,166,196,0.6);margin:18px 0 10px;">试试这些问题</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <sc-for list="{{ examples }}" as="ex" hint-placeholder-count="3">
+          <button onClick="{{ ex.fill }}" style="text-align:left;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:11px 14px;color:rgba(222,227,234,0.85);font-family:'Noto Serif SC',serif;font-size:13px;line-height:1.6;cursor:pointer;">{{ ex.text }}</button>
+        </sc-for>
+      </div>
+
+      <div style="flex:1;"></div>
+      <button onClick="{{ startClarify }}" style="width:100%;padding:16px;border:none;border-radius:15px;background:linear-gradient(180deg,#e9edf3,#c9d4e2);color:#13202e;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:600;letter-spacing:3px;cursor:pointer;box-shadow:0 12px 30px -10px rgba(207,222,240,0.45);margin-top:16px;">去 历 史 里 找 答 案</button>
+    </div>
+    </sc-if>
+
+    <!-- ============ CLARIFY (chat) ============ -->
+    <sc-if value="{{ isClarify }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;animation:fadein .5s ease;background:radial-gradient(130% 80% at 50% 0%,#161e28,#0b0f15);">
+      <div style="position:absolute;top:46px;left:0;right:0;height:58px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:30;">
+        <button onClick="{{ goInput }}" style="position:absolute;left:18px;background:none;border:none;color:rgba(214,220,228,0.6);font-size:22px;cursor:pointer;">‹</button>
+        <div style="text-align:center;"><div style="font-size:15px;color:#eef1f5;letter-spacing:3px;font-weight:500;">澄清之问</div><div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:11px;letter-spacing:1px;color:rgba(143,166,196,0.65);">let the book understand you</div></div>
+      </div>
+
+      <div style="position:absolute;top:104px;bottom:0;left:0;right:0;overflow-y:auto;padding:8px 20px 24px;display:flex;flex-direction:column;gap:14px;">
+        <sc-for list="{{ messages }}" as="m" hint-placeholder-count="2">
+          <div style="{{ m.row }}"><div style="{{ m.bubble }}">{{ m.text }}</div></div>
+        </sc-for>
+
+        <sc-if value="{{ typing }}" hint-placeholder-val="{{ false }}">
+          <div style="align-self:flex-start;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px 16px 16px 4px;padding:14px 18px;display:flex;gap:5px;">
+            <span style="width:6px;height:6px;border-radius:50%;background:rgba(143,166,196,0.8);animation:dots 1.2s infinite;"></span>
+            <span style="width:6px;height:6px;border-radius:50%;background:rgba(143,166,196,0.8);animation:dots 1.2s infinite .2s;"></span>
+            <span style="width:6px;height:6px;border-radius:50%;background:rgba(143,166,196,0.8);animation:dots 1.2s infinite .4s;"></span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ awaiting }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:2px;animation:fadeup .4s ease;">
+            <sc-for list="{{ options }}" as="o" hint-placeholder-count="3">
+              <button onClick="{{ o.pick }}" style="text-align:left;background:rgba(143,166,196,0.10);border:1px solid rgba(143,166,196,0.28);border-radius:13px;padding:13px 16px;color:#e8ecf2;font-family:'Noto Serif SC',serif;font-size:14px;line-height:1.55;cursor:pointer;">{{ o.label }}</button>
+            </sc-for>
+            <div style="display:flex;gap:8px;margin-top:4px;">
+              <input value="{{ freeText }}" onInput="{{ onFree }}" placeholder="或者，说说你自己的答案……" style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);border-radius:13px;padding:12px 14px;color:#eef1f5;font-family:'Noto Serif SC',serif;font-size:13px;outline:none;">
+              <button onClick="{{ sendFree }}" style="border:none;border-radius:13px;padding:0 18px;background:rgba(232,236,242,0.92);color:#13202e;font-size:14px;font-weight:600;cursor:pointer;">送出</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ============ CONFIRM CARD ============ -->
+    <sc-if value="{{ isConfirm }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;padding:70px 26px 30px;display:flex;flex-direction:column;animation:fadein .5s ease;background:radial-gradient(130% 80% at 50% 18%,#19222d,#0b0f15);overflow-y:auto;">
+      <button onClick="{{ backToChat }}" style="position:absolute;top:52px;left:16px;background:none;border:none;color:rgba(214,220,228,0.6);font-size:22px;cursor:pointer;z-index:5;">‹</button>
+      <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;color:rgba(143,166,196,0.7);">what you are really asking</div>
+      <div style="text-align:center;font-size:22px;font-weight:500;color:#f1f3f7;letter-spacing:2px;margin:6px 0 28px;">问题确认卡</div>
+
+      <div style="position:relative;background:linear-gradient(165deg,rgba(236,231,218,0.97),rgba(222,216,200,0.94));border-radius:18px;padding:30px 26px;box-shadow:0 26px 60px -18px rgba(0,0,0,0.6),0 0 40px -8px rgba(207,222,240,0.25);animation:rise .7s cubic-bezier(.2,.7,.2,1);">
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;letter-spacing:2px;color:#9a8f76;margin-bottom:14px;">你最初问的是</div>
+        <div style="font-size:14px;color:#6b6450;line-height:1.7;font-style:normal;border-left:2px solid rgba(154,143,118,0.5);padding-left:14px;margin-bottom:22px;">「{{ userQuestion }}」</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;letter-spacing:2px;color:#9a8f76;margin-bottom:14px;">而你真正担心的，也许是</div>
+        <div style="font-size:18px;color:#2c2820;line-height:2;font-weight:500;">{{ essence }}</div>
+        <div style="margin-top:22px;height:1px;background:linear-gradient(90deg,transparent,rgba(154,143,118,0.4),transparent);"></div>
+      </div>
+
+      <div style="flex:1;min-height:24px;"></div>
+      <button onClick="{{ goFlip }}" style="width:100%;padding:16px;border:none;border-radius:15px;background:linear-gradient(180deg,#e9edf3,#c9d4e2);color:#13202e;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:600;letter-spacing:2px;cursor:pointer;box-shadow:0 12px 30px -10px rgba(207,222,240,0.45);">确认，去历史里找答案</button>
+      <button onClick="{{ reopenClarify }}" style="width:100%;margin-top:12px;padding:14px;border:1px solid rgba(255,255,255,0.14);border-radius:15px;background:rgba(255,255,255,0.03);color:rgba(222,227,234,0.85);font-family:'Noto Serif SC',serif;font-size:14px;letter-spacing:1px;cursor:pointer;">还不太准，我想改一下</button>
+    </div>
+    </sc-if>
+
+    <!-- ============ FLIP / LOADING ============ -->
+    <sc-if value="{{ isFlip }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:fadein .6s ease;background:radial-gradient(130% 90% at 50% 40%,#10161f,#080b10 100%);overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;">
+        <sc-for list="{{ flyKeywords }}" as="k" hint-placeholder-count="9">
+          <span style="{{ k.style }}">{{ k.word }}</span>
+        </sc-for>
+      </div>
+
+      <div style="position:relative;width:230px;height:160px;perspective:1000px;margin-bottom:40px;">
+        <div style="position:absolute;left:50%;top:0;width:2px;height:100%;background:linear-gradient(180deg,transparent,rgba(232,236,242,0.85),transparent);box-shadow:0 0 26px 8px rgba(207,222,240,0.45);"></div>
+        <div style="position:absolute;right:50%;top:6%;width:47%;height:88%;transform-origin:right center;transform:rotateY(32deg);background:linear-gradient(120deg,rgba(236,231,218,0.92),rgba(200,196,182,0.7));border-radius:3px 0 0 3px;box-shadow:-6px 0 18px rgba(0,0,0,0.3);"></div>
+        <div style="position:absolute;left:50%;top:6%;width:47%;height:88%;transform-origin:left center;animation:pageturn 2.6s ease-in-out infinite alternate;background:linear-gradient(240deg,rgba(236,231,218,0.92),rgba(200,196,182,0.7));border-radius:0 3px 3px 0;box-shadow:6px 0 18px rgba(0,0,0,0.3);backface-visibility:hidden;"></div>
+        <div style="position:absolute;left:50%;top:-30px;width:220px;height:110px;transform:translateX(-50%);background:radial-gradient(ellipse at center,rgba(207,222,240,0.55),transparent 70%);filter:blur(14px);"></div>
+      </div>
+
+      <div style="height:1px;width:140px;background:linear-gradient(90deg,transparent,rgba(143,166,196,0.6),transparent);margin-bottom:24px;"></div>
+      <div style="min-height:48px;padding:0 40px;text-align:center;">
+        <div style="font-size:15px;font-weight:300;color:rgba(222,227,234,0.9);line-height:1.8;letter-spacing:1px;animation:fadein .8s ease;">{{ loadingLine }}</div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ============ MOTIF CARD ============ -->
+    <sc-if value="{{ isMotif }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;padding:60px 26px 32px;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:fadein .6s ease;background:radial-gradient(130% 90% at 50% 30%,#161e28,#0a0e14);overflow:hidden;">
+      <button onClick="{{ goHome }}" style="position:absolute;top:50px;right:18px;width:30px;height:30px;border-radius:50%;border:1px solid rgba(214,220,228,0.25);background:rgba(255,255,255,0.04);color:rgba(214,220,228,0.7);font-size:15px;line-height:1;cursor:pointer;z-index:6;">✕</button>
+      <div style="position:absolute;top:30%;left:-20%;width:140%;height:30%;background:linear-gradient(110deg,transparent,rgba(143,166,196,0.14),transparent);filter:blur(26px);transform:rotate(-12deg);animation:flowband 14s ease-in-out infinite;"></div>
+
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;color:rgba(143,166,196,0.75);margin-bottom:18px;animation:fadeup .6s ease;">从时间河中，抽出一张</div>
+
+      <div style="position:relative;width:300px;border-radius:18px;border:1px solid rgba(143,166,196,0.5);box-shadow:0 30px 70px -20px rgba(0,0,0,0.78),0 0 50px -12px rgba(207,222,240,0.22);animation:rise .8s cubic-bezier(.2,.7,.2,1);overflow:hidden;background:repeating-linear-gradient(45deg,rgba(207,222,240,0.03) 0px,rgba(207,222,240,0.03) 1px,transparent 1px,transparent 9px),repeating-linear-gradient(-45deg,rgba(207,222,240,0.022) 0px,rgba(207,222,240,0.022) 1px,transparent 1px,transparent 9px),radial-gradient(120% 62% at 50% 0%,rgba(143,166,196,0.20),transparent 60%),linear-gradient(165deg,#16202c,#0b1119);">
+        <div style="position:relative;margin:10px;border:1px solid rgba(143,166,196,0.24);border-radius:11px;padding:34px 22px 30px;text-align:center;">
+          <span style="position:absolute;top:7px;left:7px;width:8px;height:8px;border-left:1px solid rgba(207,222,240,0.6);border-top:1px solid rgba(207,222,240,0.6);"></span>
+          <span style="position:absolute;top:7px;right:7px;width:8px;height:8px;border-right:1px solid rgba(207,222,240,0.6);border-top:1px solid rgba(207,222,240,0.6);"></span>
+          <span style="position:absolute;bottom:7px;left:7px;width:8px;height:8px;border-left:1px solid rgba(207,222,240,0.6);border-bottom:1px solid rgba(207,222,240,0.6);"></span>
+          <span style="position:absolute;bottom:7px;right:7px;width:8px;height:8px;border-right:1px solid rgba(207,222,240,0.6);border-bottom:1px solid rgba(207,222,240,0.6);"></span>
+          <div style="position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:200px;height:110px;background:radial-gradient(ellipse,rgba(207,222,240,0.4),transparent 70%);filter:blur(16px);"></div>
+          <div style="position:relative;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:10px;letter-spacing:5px;color:rgba(143,166,196,0.65);text-transform:uppercase;">Life Motif</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;letter-spacing:1.5px;color:rgba(232,207,160,0.82);margin-top:10px;white-space:nowrap;">{{ motifEn }}</div>
+            <div style="font-size:38px;font-weight:600;color:#f4f6f9;letter-spacing:7px;text-indent:7px;line-height:1.2;white-space:nowrap;margin-top:14px;text-shadow:0 0 26px rgba(207,222,240,0.3);">{{ motifName }}</div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin:18px 0;"><span style="height:1px;width:40px;background:rgba(143,166,196,0.45);"></span><span style="width:5px;height:5px;background:rgba(232,207,160,0.85);transform:rotate(45deg);"></span><span style="height:1px;width:40px;background:rgba(143,166,196,0.45);"></span></div>
+            <div style="font-size:14px;font-weight:300;color:rgba(214,220,228,0.82);line-height:1.95;">{{ motifLine }}</div>
+          </div>
+        </div>
+      </div>
+
+      <button onClick="{{ goEchoes }}" style="margin-top:40px;padding:15px 40px;border:1px solid rgba(207,222,240,0.5);border-radius:30px;background:rgba(207,222,240,0.08);color:#eef1f5;font-family:'Noto Serif SC',serif;font-size:15px;letter-spacing:3px;cursor:pointer;animation:fadeup .9s ease;">翻开历史答案</button>
+    </div>
+    </sc-if>
+
+    <!-- ============ ECHOES LIST ============ -->
+    <sc-if value="{{ isEchoes }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;padding:64px 22px 26px;display:flex;flex-direction:column;animation:fadein .5s ease;background:radial-gradient(130% 80% at 50% 0%,#141c26,#0a0e14);overflow-y:auto;">
+      <button onClick="{{ goMotif }}" style="position:absolute;top:52px;left:16px;background:none;border:none;color:rgba(214,220,228,0.6);font-size:22px;cursor:pointer;z-index:5;">‹</button>
+      <div style="text-align:center;margin-bottom:6px;"><span style="font-size:12px;letter-spacing:2px;color:rgba(143,166,196,0.7);">母题 · {{ motifName }}</span></div>
+      <div style="text-align:center;font-size:22px;font-weight:500;color:#f1f3f7;letter-spacing:2px;margin-bottom:4px;">历史回声</div>
+      <div style="text-align:center;font-size:12px;font-weight:300;color:rgba(214,220,228,0.6);margin-bottom:22px;">曾有人站在和你相似的位置，听听他们的回响。</div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <sc-for list="{{ echoes }}" as="e" hint-placeholder-count="3">
+          <button onClick="{{ e.open }}" style="position:relative;text-align:left;background:linear-gradient(160deg,rgba(255,255,255,0.055),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.10);border-radius:16px;padding:18px 18px 18px 20px;cursor:pointer;overflow:hidden;animation:fadeup .5s ease;">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,rgba(232,207,160,0.7),rgba(143,166,196,0.5));"></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
+              <span style="font-size:17px;font-weight:600;color:#f1f3f7;letter-spacing:1px;">{{ e.name }}</span>
+              <span style="font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:1px;color:rgba(143,166,196,0.8);">{{ e.era }}</span>
+            </div>
+            <div style="font-size:13px;font-weight:300;color:rgba(220,225,232,0.82);line-height:1.75;margin-bottom:12px;">{{ e.intro }}</div>
+            <div style="font-size:13px;color:rgba(232,207,160,0.9);line-height:1.7;font-style:normal;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px;">「{{ e.quote }}」</div>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:20px;text-align:center;">
+        <sc-if value="{{ canRefresh }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ refreshEchoes }}" style="background:none;border:1px solid rgba(143,166,196,0.35);border-radius:24px;padding:11px 24px;color:rgba(199,210,224,0.9);font-family:'Noto Serif SC',serif;font-size:13px;letter-spacing:2px;cursor:pointer;">↻ 换一批回声 · 还剩 {{ refreshLeft }} 次</button>
+        </sc-if>
+        <sc-if value="{{ noRefresh }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;font-weight:300;color:rgba(143,166,196,0.6);line-height:1.7;">有些相遇，只此一回。<br>把心交给眼前这几束回声吧。</div>
+        </sc-if>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ============ DETAIL ============ -->
+    <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;animation:fadein .5s ease;background:#0b0f15;overflow-y:auto;">
+      <div style="position:sticky;top:0;z-index:30;height:104px;display:flex;align-items:flex-end;padding:0 0 14px;background:linear-gradient(180deg,#0b0f15 60%,transparent);">
+        <button onClick="{{ backFromDetail }}" style="position:absolute;top:52px;left:16px;background:none;border:none;color:rgba(214,220,228,0.7);font-size:22px;cursor:pointer;">‹</button>
+        <div style="width:100%;text-align:center;"><div style="font-size:11px;letter-spacing:3px;color:rgba(143,166,196,0.7);">TA 的 故 事</div><div style="font-size:18px;font-weight:600;color:#f1f3f7;letter-spacing:2px;margin-top:2px;">{{ activeEcho.name }} · {{ activeEcho.era }}</div></div>
+      </div>
+
+      <div style="padding:4px 24px 130px;">
+        <!-- restate -->
+        <div style="background:rgba(143,166,196,0.08);border:1px solid rgba(143,166,196,0.2);border-radius:14px;padding:16px 18px;margin-bottom:26px;">
+          <div style="font-size:11px;letter-spacing:2px;color:rgba(143,166,196,0.8);margin-bottom:8px;">你的问题</div>
+          <div style="font-size:14px;font-weight:300;color:rgba(224,229,236,0.9);line-height:1.8;">{{ activeEcho.detail.restate }}</div>
+        </div>
+
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;color:rgba(143,166,196,0.75);margin-bottom:10px;">他也曾站在那里</div>
+        <div style="font-size:15px;font-weight:300;color:rgba(226,231,238,0.92);line-height:2.05;margin-bottom:24px;">{{ activeEcho.detail.situation }}</div>
+
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;color:rgba(143,166,196,0.75);margin-bottom:10px;">他当时如何面对</div>
+        <div style="font-size:15px;font-weight:300;color:rgba(226,231,238,0.92);line-height:2.05;margin-bottom:28px;">{{ activeEcho.detail.howFaced }}</div>
+
+        <!-- the lit page: original quote -->
+        <div style="position:relative;background:linear-gradient(165deg,#ece7da,#ddd6c6);border-radius:16px;padding:26px 24px 22px;box-shadow:0 22px 50px -18px rgba(0,0,0,0.6),0 0 36px -10px rgba(207,222,240,0.22);margin-bottom:14px;">
+          <div style="display:inline-block;font-size:10px;letter-spacing:1px;color:#7a6f53;background:rgba(122,111,83,0.14);border:1px solid rgba(122,111,83,0.3);border-radius:20px;padding:3px 10px;margin-bottom:16px;">{{ activeEcho.quoteCred }}</div>
+          <div style="font-size:21px;font-weight:500;color:#2c2820;line-height:1.95;letter-spacing:1px;">「{{ activeEcho.quote }}」</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#8a7f63;margin-top:16px;text-align:right;">— {{ activeEcho.quoteSource }}</div>
+        </div>
+
+        <!-- modern reading -->
+        <div style="margin-top:26px;border:1px solid rgba(143,166,196,0.22);border-radius:16px;padding:20px 18px;background:rgba(143,166,196,0.05);">
+          <div style="display:inline-block;font-size:10px;letter-spacing:1px;color:#a9bdd6;background:rgba(143,166,196,0.16);border:1px solid rgba(143,166,196,0.35);border-radius:20px;padding:3px 10px;margin-bottom:14px;">Timewise 现代解释</div>
+          <div style="font-size:15px;font-weight:300;color:rgba(228,233,240,0.94);line-height:2.05;">{{ activeEcho.detail.modernRead }}</div>
+        </div>
+
+        <div style="margin-top:28px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;color:rgba(143,166,196,0.75);margin-bottom:10px;">那么，今天的你</div>
+        <div style="font-size:15px;font-weight:300;color:rgba(226,231,238,0.92);line-height:2.05;margin-bottom:24px;">{{ activeEcho.detail.selfUnderstand }}</div>
+
+        <!-- small action -->
+        <div style="background:linear-gradient(160deg,rgba(232,207,160,0.12),rgba(232,207,160,0.04));border:1px solid rgba(232,207,160,0.3);border-radius:16px;padding:20px 18px;">
+          <div style="font-size:11px;letter-spacing:2px;color:rgba(232,207,160,0.9);margin-bottom:10px;">✦ 此刻可以做的一件小事</div>
+          <div style="font-size:15px;font-weight:400;color:#f3eede;line-height:1.95;">{{ activeEcho.detail.action }}</div>
+        </div>
+      </div>
+
+      <!-- collect bar -->
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:16px 24px 26px;background:linear-gradient(180deg,transparent,#0b0f15 30%);">
+        <sc-if value="{{ notCollected }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ collect }}" style="width:100%;padding:16px;border:none;border-radius:15px;background:linear-gradient(180deg,#f0e6cf,#e0cfa3);color:#3a2f17;font-family:'Noto Serif SC',serif;font-size:16px;font-weight:600;letter-spacing:2px;cursor:pointer;box-shadow:0 14px 34px -10px rgba(232,207,160,0.5);">✦ 收藏这束回声</button>
+        </sc-if>
+        <sc-if value="{{ collectedActive }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ goRiver }}" style="width:100%;padding:16px;border:1px solid rgba(232,207,160,0.45);border-radius:15px;background:rgba(232,207,160,0.10);color:#f0e6cf;font-family:'Noto Serif SC',serif;font-size:15px;letter-spacing:2px;cursor:pointer;">已点亮 · 去我的回声河看看 ›</button>
+        </sc-if>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ============ RIVER ============ -->
+    <sc-if value="{{ isRiver }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;inset:0;padding:64px 0 88px;animation:fadein .5s ease;background:radial-gradient(140% 100% at 50% 110%,#16202b,#090c12);overflow-y:auto;">
+      <div style="text-align:center;padding:0 26px;margin-bottom:6px;"><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;color:rgba(143,166,196,0.75);">My River of Echoes</span></div>
+      <div style="text-align:center;font-size:25px;font-weight:500;color:#f1f3f7;letter-spacing:3px;margin-bottom:8px;">我的回声河</div>
+      <div style="text-align:center;font-size:13px;font-weight:300;color:rgba(214,220,228,0.62);line-height:1.7;padding:0 36px;margin-bottom:30px;">你曾经问过的问题，<br>都在这里留下了光。</div>
+
+      <sc-if value="{{ hasStreams }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <sc-for list="{{ streams }}" as="s" hint-placeholder-count="2">
+          <div style="position:relative;padding:18px 26px;">
+            <div style="position:absolute;left:0;right:0;top:50%;height:2px;background:linear-gradient(90deg,transparent,rgba(143,166,196,0.22) 12%,rgba(143,166,196,0.22) 88%,transparent);"></div>
+            <div style="position:relative;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;letter-spacing:1px;color:rgba(143,166,196,0.7);margin-bottom:10px;">支流 · <span style="font-family:'Noto Serif SC',serif;font-style:normal;color:rgba(220,225,232,0.85);font-size:13px;">{{ s.motif }}</span></div>
+            <div style="position:relative;display:flex;align-items:center;gap:18px;flex-wrap:wrap;min-height:30px;">
+              <sc-for list="{{ s.lamps }}" as="l" hint-placeholder-count="2">
+                <button onClick="{{ l.open }}" style="position:relative;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;">
+                  <span style="position:relative;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#ffe9bd,#e0b876);box-shadow:0 0 14px 4px rgba(232,207,160,0.55);animation:lampglow 4s ease-in-out infinite;"></span>
+                  <span style="font-size:11px;color:rgba(224,229,236,0.8);white-space:nowrap;max-width:80px;overflow:hidden;text-overflow:ellipsis;">{{ l.name }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="text-align:center;margin-top:22px;padding:0 34px;">
+        <div style="display:inline-flex;align-items:center;gap:9px;color:rgba(143,166,196,0.58);font-size:12px;font-weight:300;letter-spacing:.5px;line-height:1.6;"><span style="flex:none;width:6px;height:6px;border-radius:50%;border:1px solid rgba(143,166,196,0.4);"></span>还有 {{ lockedCount }} 个支流未解锁，等待你抽到新的卡来点亮</div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ noStreams }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:42px;padding:0 42px;text-align:center;">
+        <div style="display:inline-block;width:14px;height:14px;border-radius:50%;border:1px solid rgba(143,166,196,0.4);margin-bottom:22px;"></div>
+        <div style="font-size:14px;font-weight:300;color:rgba(214,220,228,0.78);line-height:2.1;">你的回声河还没有亮起。<br>去提一个问题，抽到第一张卡，<br>这里就会点亮第一盏灯。</div>
+        <div style="margin-top:18px;font-size:12px;color:rgba(143,166,196,0.55);letter-spacing:.5px;">共有 {{ lockedCount }} 个支流，等待你逐一解锁</div>
+        <button onClick="{{ goInput }}" style="margin-top:28px;padding:13px 32px;border:1px solid rgba(207,222,240,0.45);border-radius:26px;background:rgba(207,222,240,0.08);color:#eef1f5;font-family:'Noto Serif SC',serif;font-size:14px;letter-spacing:2px;cursor:pointer;">去提一个问题</button>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- ============ PROFILE (我的) ============ -->
+    <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;padding:64px 24px 88px;animation:fadein .5s ease;background:radial-gradient(130% 80% at 50% 0%,#141c26,#0a0e14);overflow-y:auto;">
+      <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;color:rgba(143,166,196,0.75);">Me</div>
+      <div style="text-align:center;font-size:25px;font-weight:500;color:#f1f3f7;letter-spacing:3px;margin:6px 0 28px;">我的</div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;margin-bottom:28px;">
+        <div style="position:relative;width:74px;height:74px;border-radius:50%;background:radial-gradient(circle at 50% 36%,rgba(232,207,160,0.5),rgba(143,166,196,0.12));border:1px solid rgba(207,222,240,0.3);display:flex;align-items:center;justify-content:center;">
+          <span style="width:16px;height:16px;border-radius:50%;background:radial-gradient(circle,#fff0cf,#e0b876);box-shadow:0 0 18px 5px rgba(232,207,160,0.5);"></span>
+        </div>
+        <div style="font-size:17px;color:#eef1f5;letter-spacing:1px;margin-top:14px;">未登录的旅人</div>
+        <div style="font-size:12px;font-weight:300;color:rgba(214,220,228,0.55);margin-top:5px;text-align:center;line-height:1.6;">登录后，你的灯火与回声河<br>将被长久地保存下来</div>
+        <button style="margin-top:18px;padding:11px 32px;border:1px solid rgba(207,222,240,0.45);border-radius:26px;background:rgba(207,222,240,0.08);color:#eef1f5;font-family:'Noto Serif SC',serif;font-size:14px;letter-spacing:2px;cursor:pointer;">登录 / 注册</button>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-bottom:24px;">
+        <div style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:18px 0;text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#f0e6cf;line-height:1;">{{ lampCount }}</div>
+          <div style="font-size:11px;letter-spacing:2px;color:rgba(214,220,228,0.6);margin-top:8px;">点亮灯火</div>
+        </div>
+        <div style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:18px 0;text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#a9bdd6;line-height:1;">{{ motifCount }}</div>
+          <div style="font-size:11px;letter-spacing:2px;color:rgba(214,220,228,0.6);margin-top:8px;">解锁母题</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);">
+        <button onClick="{{ goRiver }}" style="display:flex;justify-content:space-between;align-items:center;padding:16px 18px;background:rgba(255,255,255,0.03);border:none;border-bottom:1px solid rgba(255,255,255,0.06);color:rgba(228,233,240,0.9);font-family:'Noto Serif SC',serif;font-size:14px;letter-spacing:1px;cursor:pointer;">我的回声河<span style="color:rgba(143,166,196,0.7);">›</span></button>
+        <button onClick="{{ goInput }}" style="display:flex;justify-content:space-between;align-items:center;padding:16px 18px;background:rgba(255,255,255,0.03);border:none;border-bottom:1px solid rgba(255,255,255,0.06);color:rgba(228,233,240,0.9);font-family:'Noto Serif SC',serif;font-size:14px;letter-spacing:1px;cursor:pointer;">我的提问记录<span style="color:rgba(143,166,196,0.7);">›</span></button>
+        <button style="display:flex;justify-content:space-between;align-items:center;padding:16px 18px;background:rgba(255,255,255,0.03);border:none;color:rgba(228,233,240,0.9);font-family:'Noto Serif SC',serif;font-size:14px;letter-spacing:1px;cursor:pointer;">关于历量<span style="color:rgba(143,166,196,0.7);">›</span></button>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ============ BOTTOM NAV ============ -->
+    <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;bottom:0;left:0;right:0;height:64px;display:flex;background:rgba(9,13,19,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,0.07);z-index:55;">
+      <button onClick="{{ goAsk }}" style="{{ navAsk }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9.5" r="6"></circle><path d="M9.6 7.3 a3.2 3.2 0 0 1 2.7 -1.6"></path><path d="M8.4 18 h7.2 l1.1 2.5 h-9.4 z"></path></svg>提问</button>
+      <button onClick="{{ goRiver }}" style="{{ navRiver }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 C 7 5.5, 8 12, 12 9 C 16 6, 17 14, 21 11"></path><path d="M3 14.5 C 7 11.5, 8 18, 12 15 C 16 12, 17 20, 21 17" opacity="0.5"></path></svg>回声河</button>
+      <button onClick="{{ goProfile }}" style="{{ navMe }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 19 C 5.5 14.5, 18.5 14.5, 18.5 19"></path></svg>我的</button>
+    </div>
+    </sc-if>
+
+    <!-- ============ TOAST ============ -->
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;background:rgba(8,11,16,0.55);animation:fadein .3s ease;pointer-events:none;">
+      <div style="position:relative;display:flex;flex-direction:column;align-items:center;animation:rise .6s cubic-bezier(.2,.7,.2,1);">
+        <div style="position:absolute;width:160px;height:160px;border:1px solid rgba(232,207,160,0.4);border-radius:50%;animation:ripple 2.2s ease-out infinite;"></div>
+        <div style="position:absolute;width:160px;height:160px;border:1px solid rgba(232,207,160,0.4);border-radius:50%;animation:ripple 2.2s ease-out infinite .7s;"></div>
+        <div style="width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,#fff0cf,#e0b876);box-shadow:0 0 28px 10px rgba(232,207,160,0.6);margin-bottom:24px;"></div>
+        <div style="font-size:18px;font-weight:500;color:#f3eede;letter-spacing:3px;">已为你点亮一盏灯。</div>
+      </div>
+    </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:446,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'home',
+    inputText: '',
+    selectedTags: [],
+    messages: [],
+    step: 0,
+    awaiting: false,
+    typing: false,
+    options: [],
+    freeText: '',
+    batch: 0,
+    refreshCount: 0,
+    activeEcho: null,
+    collectedIds: [],
+    fromRiver: false,
+    toast: false,
+    loadingIdx: 0,
+    streams: [],
+    _seed: [
+      { motif: '去留之间', lamps: [ {
+        id: 'tao', name: '陶渊明', era: '东晋', quote: '误落尘网中，一去三十年。', quoteSource: '《归园田居》', quoteCred: '原文可考',
+        detail: { restate: '你曾问：到底该留在让我疲惫的位置上，还是转身离开。', situation: '陶渊明几度出仕又辞官，在功名与本心之间反复挣扎。', howFaced: '他最终不为五斗米折腰，归隐田园，把"留"还是"走"交给了自己真正想过的生活。', modernRead: '去留的答案，往往不在利弊清单里，而在"哪一种生活让你还认得自己"。', selfUnderstand: '先问你想成为谁，再决定留下还是离开。', action: '写下留下与离开各自最坏的结果，看哪一个你真的承受不了。' }
+      } ] },
+      { motif: '时间与亲情', lamps: [ {
+        id: 'gui', name: '归有光', era: '明', quote: '庭有枇杷树，吾妻死之年所手植也，今已亭亭如盖矣。', quoteSource: '《项脊轩志》', quoteCred: '原文可考',
+        detail: { restate: '你曾问：当我爱的人正在老去，而我留不住时间，该怎么办。', situation: '归有光在旧屋中睹物思人，写下对亡妻与亲人的怀念。', howFaced: '他不回避失去，而是把记忆细细写下，让爱在文字里继续生长。', modernRead: '我们留不住时间，但能留住"在一起时认真看过彼此"这件事。', selfUnderstand: '与其焦虑失去，不如把此刻的相处过得更密。', action: '今天给那个正在老去的人打一个不为任何事、只是想听听声音的电话。' }
+      } ] },
+      { motif: '远行与未知', lamps: [ {
+        id: 'xuan', name: '玄奘', era: '唐', quote: '宁可就西而死，岂归东而生。', quoteSource: '玄奘西行誓言', quoteCred: '历史背景概述',
+        detail: { restate: '你曾问：走向一个完全陌生的地方，如何在不可控里找到一点确定。', situation: '玄奘独自西行求法，穿越大漠，前路全是未知与凶险。', howFaced: '他把确定感放在"为何出发"上，而非"路途安全"上——目标清楚，未知就不再那么吓人。', modernRead: '远行的安全感，从来不来自掌控路况，而来自你足够清楚自己为什么要去。', selfUnderstand: '陌生不可怕，可怕的是连自己为何而来都模糊。', action: '用一句话写清这趟"远行"你最想带回的是什么，贴在看得见的地方。' }
+      } ] },
+    ],
+  };
+
+  TAGS = ['工作','关系','选择','亲情','孤独','失败','年龄','远行','自我怀疑'];
+  EXAMPLES = [
+    '我马上要入职第一份工作，特别怕达不到老板的预期。',
+    '我该留在熟悉的城市，还是去一个陌生的地方重新开始？',
+    '父母在慢慢变老，而我好像什么都留不住。',
+    '我努力了很久，却好像一直没有被看见。',
+  ];
+
+  SCRIPT = [
+    { reflect: '', q: '我想先慢慢理解你——这件事，是已经真的发生了，还是你在还没开始之前，就先替自己担心了？', opts: ['还没开始，是我在提前担心','刚开始不久，已经有些迹象','已经发生过，被指出过问题'] },
+    { reflect: '听起来，这更像是一种在事情真正发生之前，就先升起来的不安。', q: '如果有一天真的没达到预期，你心里最怕的，其实是哪一种？', opts: ['怕被否定，不被认可','怕让信任我的人失望','怕因此证明了我其实不够好'] },
+    { reflect: '那么你怕的，或许不只是工作本身，而是那个"还不够好"的自己，被人看见。', q: '最近，是不是发生了什么，让这份担心忽然变重了？', opts: ['快入职了，要走进全新的环境','看到身边的人好像都很优秀','想起了过去那次失败的经历'] },
+  ];
+  REFINE = { reflect: '好，那我们再靠近一点。', q: '在"被否定"和"让别人失望"之间，哪一个更接近你心里那根刺？', opts: ['更怕自己被否定','更怕让别人失望','两个都有，但更深的是怕自己'] };
+
+  ESSENCE = '你真正担心的，也许不是单纯做不好一件工作，而是当你刚刚走进一个新的评价体系时，害怕自己还不够成熟、不够可靠——最终辜负了别人对你的期待，也辜负了你对自己的想象。';
+  MOTIF = { name: '初入秩序', en: 'Into a New Order', line: '当一个人刚走进一个新的世界，本能地害怕——我，是不是还不够好。' };
+  MOTIF_TOTAL = 12;
+
+  RESTATE = '你担心刚走进一个新环境时，达不到别人的期待，害怕那个"还不够好"的自己被看见。';
+
+  BATCHES = [
+    [
+      { id:'wym', name:'王阳明', era:'中国 · 明 · 1508年', motif:'初入秩序',
+        intro:'他也曾被抛进一个全然陌生、地位骤降的处境，怀疑自己配不配。后来他发现，最难达到的标准，从来在自己心里。',
+        quote:'破山中贼易，破心中贼难。', quoteSource:'《王阳明全集·与杨仕德薛尚谦书》', quoteCred:'原文可考',
+        detail:{ restate:this_RESTATE(),
+          situation:'1508年，王阳明因得罪权宦刘瑾，被贬到贵州龙场——一个偏远、潮湿、语言不通的驿站。从京城官员到边地小吏，他失去了几乎所有外在的肯定，前途一片未知。',
+          howFaced:'他在绝境中为自己凿了一具石椁，日夜静坐参问。一夜忽然彻悟："圣人之道，吾性自足"——衡量自己的标准，不在别人给的位置和评价里，而在你是否依着本心去做该做的事。这便是著名的"龙场悟道"。',
+          modernRead:'外在的"贼"——具体的任务、KPI、老板的眼神——其实相对好对付；真正难缠的，是你心里那个反复说"你不够好"的声音。达到预期是"山中贼"，与自我怀疑和解，才是"心中贼"。你现在的紧绷，多半是在和后者作战。',
+          selfUnderstand:'你怕的或许不是做不好，而是用一套尚未建立起来的标准，提前审判了自己。把"我必须做到完美"换成"我会认真做，并诚实复盘"——前者向外求肯定，后者向内立根。',
+          action:'今晚写下三件你"已经会做"的小事，哪怕很小。让心里那个"不够好"的声音，第一次听见来自你自己的反驳。' } },
+      { id:'rilke', name:'《给青年诗人的信》', era:'奥地利 · 1903年', motif:'初入秩序',
+        intro:'一个年轻人写信问他：我到底够不够好？里尔克没有给答案，而是请他先去"活在问题里"。',
+        quote:'要对你心里一切尚未解决的事保持耐心……试着去爱这些问题本身。', quoteSource:'里尔克《给青年诗人的信》· 冯至 译', quoteCred:'译文整理',
+        detail:{ restate:this_RESTATE(),
+          situation:'1903年，一位即将走入军旅与社会、对自己充满怀疑的青年，反复写信问里尔克：我配做诗人吗？我够好吗？',
+          howFaced:'里尔克没有评判他够不够格，而是劝他不要急于求一个"我行/我不行"的判决，先安住在悬而未决的状态里，让答案随生活慢慢生长出来。',
+          modernRead:'"我达不达得到预期"本质上是一道还没到时候的题。你现在拿不到答案，不是因为你失败，而是因为它还没被你活到。允许自己处在"还不知道"里，本身就是一种成熟。',
+          selfUnderstand:'你不必在第一天就证明自己。把"我要立刻被认可"换成"我给自己一段被允许笨拙的时间"。',
+          action:'给三个月后的自己写一句话，封存起来。约定那时再回来看：你究竟是真的不行，还是只是当时太着急要一个答案。' } },
+      { id:'zgf', name:'曾国藩', era:'中国 · 清 · 1839年', motif:'初入秩序',
+        intro:'他自认天资愚钝，初入仕途处处碰壁。他靠的从不是聪明，而是每天笨拙而诚实地，比昨天多做一点。',
+        quote:'凡人做一事，便须全副精神注在此一事，首尾不懈。', quoteSource:'《曾国藩家书》', quoteCred:'原文可考',
+        detail:{ restate:this_RESTATE(),
+          situation:'曾国藩年轻时常被讥为迟钝，科举屡试方中，初入翰林也自觉本领平平，时时担心辜负师友与家族的期望。',
+          howFaced:'他不和别人比天分，而是立下"日课"：每日读书、记日记、反省，以"尚拙"自勉——宁可笨，但要诚、要恒。靠日复一日的累积，他从一个被看轻的人，走成了能担大事的人。',
+          modernRead:'"达到老板预期"听起来像一座要一次跨过的高山，其实它是由无数个"把今天这件小事做扎实"累积而成的。与其焦虑那个遥远的评价，不如把精神全注在眼前这一件事上。',
+          selfUnderstand:'你不需要一开始就很厉害，只需要可靠。把"我要证明我很强"换成"我让人放心地把事交给我"。',
+          action:'明天只挑一件最重要的小任务，全程不分心地把它做到位，并主动反馈一次进度。让"靠谱"先于"优秀"被看见。' } },
+    ],
+    [
+      { id:'sj', name:'司马迁', era:'中国 · 西汉 · 公元前99年', motif:'初入秩序',
+        intro:'他在最深的羞辱与自我怀疑里，仍选择把那件该做的事做完。',
+        quote:'人固有一死，或重于泰山，或轻于鸿毛。', quoteSource:'《报任安书》', quoteCred:'原文可考',
+        detail:{ restate:this_RESTATE(),
+          situation:'司马迁因替人辩护获罪受刑，名誉与尊严几乎尽毁，时人都觉得他完了。',
+          howFaced:'他把"我够不够好"的评判先放下，咬牙完成《史记》——他要交付的，不是别人的认可，而是自己认定该留下的东西。',
+          modernRead:'当你怕达不到预期时，不妨问：抛开别人的眼光，我真正想做成的是什么？把重心从"被怎么看"挪到"想完成什么"，焦虑会松一格。',
+          selfUnderstand:'别人的评价是"轻于鸿毛"还是"重于泰山"，取决于你心里那杆秤量的是什么。',
+          action:'写下一句"无论别人怎么评价，我都想把它做好"的事，作为你的定盘星。' } },
+      { id:'ss', name:'苏轼', era:'中国 · 北宋 · 1080年', motif:'初入秩序',
+        intro:'被贬到人生低谷，他却学会了在不确定里从容地走路。',
+        quote:'莫听穿林打叶声，何妨吟啸且徐行。', quoteSource:'《定风波》', quoteCred:'原文可考',
+        detail:{ restate:this_RESTATE(),
+          situation:'苏轼因乌台诗案被贬黄州，仕途骤冷，前途难料。',
+          howFaced:'他没有被外界的风雨打乱节奏，而是该吃吃、该写写、该走走，把不可控的评价交给天，把可控的当下过好。',
+          modernRead:'"达不到预期"的雨声，多半还没真的落到你身上。与其被想象中的风雨吓住，不如先稳稳地、按自己的节奏把眼前的路走下去。',
+          selfUnderstand:'你控制不了别人怎么评价，但你能决定自己用什么姿态走过这段。',
+          action:'今天选一件让你焦虑的事，先不评判结果，只专注把过程做得从容一点。' } },
+      { id:'kz', name:'孔子', era:'中国 · 春秋 · 公元前489年', motif:'初入秩序',
+        intro:'被困、被轻视、前路断绝时，他依然弹琴讲学，没有乱了自己。',
+        quote:'君子固穷，小人穷斯滥矣。', quoteSource:'《论语·卫灵公》', quoteCred:'原文可考',
+        detail:{ restate:this_RESTATE(),
+          situation:'孔子周游列国，困于陈蔡之间，绝粮七日，随行弟子病倒，处境狼狈。',
+          howFaced:'越是困窘，他越守住自己的分寸，照常弦歌讲学——他知道，外境的难，不该变成对自己的否定。',
+          modernRead:'处境的艰难（"穷"）人人都会遇到，区别在于：你会因此乱了自己（"滥"），还是依旧守住该有的样子。达不达得到预期是处境，怎么面对才是你。',
+          selfUnderstand:'低谷不定义你，你在低谷里的姿态才定义你。',
+          action:'在最焦虑的时刻，刻意做一件平常、踏实的小事，把自己的节奏稳回来。' } },
+    ],
+    [
+      { id:'fan', name:'梵高', era:'荷兰 · 19世纪 · 1888年', motif:'初入秩序',
+        intro:'生前几乎不被认可，他却始终相信自己手里的那点光。',
+        quote:'我梦见我的画，然后我画下我的梦。', quoteSource:'《梵高书信集》', quoteCred:'译文整理',
+        detail:{ restate:this_RESTATE(),
+          situation:'梵高大半生作品无人问津，靠弟弟接济，外界几乎一致认为他不够好。',
+          howFaced:'他没有用销量和评价来定义自己，而是日复一日地画，把标准建立在"我是否在靠近我想画的东西"上。',
+          modernRead:'当下的认可常常滞后于真正的价值。你"还没被看见"，不等于你"不够好"——有时只是时间还没走到。',
+          selfUnderstand:'别人尚未看见的那部分你，仍然真实存在。',
+          action:'记录一件今天你做得不错、但还没人注意到的事——先由你自己看见它。' } },
+      { id:'lubu', name:'《瓦尔登湖》', era:'美国 · 19世纪 · 1854年', motif:'初入秩序',
+        intro:'梭罗退到湖边，只为弄清：什么才是我真正该达到的标准。',
+        quote:'我步入丛林，因为我希望活得有意义。', quoteSource:'梭罗《瓦尔登湖》', quoteCred:'译文整理',
+        detail:{ restate:this_RESTATE(),
+          situation:'梭罗厌倦了被社会的标准推着走，独自到瓦尔登湖畔生活两年。',
+          howFaced:'他剥掉外界强加的期待，亲手分辨：哪些"应该"是真的重要，哪些只是别人替他设的标准。',
+          modernRead:'你怕达不到的"预期"，有多少是老板真正要求的，又有多少是你自己脑补、加码上去的？先把它们分开。',
+          selfUnderstand:'不是所有"预期"都值得你为之焦虑，先认清哪一个才是真的。',
+          action:'把你担心的"预期"逐条写下，划掉那些其实没人真正要求、只是你自己加的。' } },
+      { id:'tg', name:'泰戈尔', era:'印度 · 20世纪 · 1916年', motif:'初入秩序',
+        intro:'他温柔地提醒：你不必急着发光，先安心地生长。',
+        quote:'不是锤的打击，而是水的载歌载舞，使卵石臻于完美。', quoteSource:'泰戈尔《飞鸟集》', quoteCred:'译文整理',
+        detail:{ restate:this_RESTATE(),
+          situation:'面对急于求成、怕自己不够好的年轻心灵，泰戈尔写下大量温柔的箴言。',
+          howFaced:'他相信成长靠的是长久而温和的浸润，而非一次次苛责式的敲打。',
+          modernRead:'你不会因为对自己更狠就更快变好。让你成熟的，是日复一日被允许的练习，而不是提前的自我否定。',
+          selfUnderstand:'对自己温柔一点，不是放任，而是给成长留出时间。',
+          action:'把今天对自己说的一句最狠的话，改写成你会对好朋友说的那种话。' } },
+    ],
+  ];
+
+  go(s) { this.setState({ screen: s }); }
+  goHome = () => this.go('home');
+  goInput = () => this.go('input');
+  goRiver = () => this.setState({ screen: 'river', toast: false });
+  goMotif = () => this.go('motif');
+  goProfile = () => this.setState({ screen: 'profile', toast: false });
+  onInput = (e) => this.setState({ inputText: e.target.value });
+  onFree = (e) => this.setState({ freeText: e.target.value });
+
+  toggleTag(t) {
+    const sel = this.state.selectedTags.includes(t)
+      ? this.state.selectedTags.filter(x => x !== t)
+      : [...this.state.selectedTags, t];
+    this.setState({ selectedTags: sel });
+  }
+  fillExample(x) { this.setState({ inputText: x }); }
+
+  userQ() {
+    const t = (this.state.inputText || '').trim();
+    return t || this.EXAMPLES[0];
+  }
+
+  startClarify = () => {
+    this.setState({ screen: 'clarify', messages: [], step: 0, awaiting: false, typing: false, options: [] });
+    setTimeout(() => this.pushAI(0, '你说，“' + this.userQ() + '”。'), 280);
+  };
+
+  pushAI(idx, reflectOverride) {
+    const node = idx === 'refine' ? this.REFINE : this.SCRIPT[idx];
+    const reflect = reflectOverride !== undefined ? reflectOverride : node.reflect;
+    this.setState({ typing: true, awaiting: false });
+    const msgs = [];
+    if (reflect) msgs.push({ role: 'ai', text: reflect });
+    setTimeout(() => {
+      this.setState(s => ({ messages: [...s.messages, ...msgs], typing: false }));
+      setTimeout(() => {
+        this.setState(s => ({
+          typing: true,
+          messages: s.messages,
+        }));
+        setTimeout(() => {
+          this.setState(s => ({
+            typing: false,
+            messages: [...s.messages, { role: 'ai', text: node.q }],
+            awaiting: true,
+            options: node.opts.map(o => ({ label: o, pick: () => this.pickOption(o) })),
+            freeText: '',
+          }));
+        }, 600);
+      }, 350);
+    }, reflect ? 650 : 0);
+  }
+
+  pickOption(label) {
+    this.setState(s => ({ messages: [...s.messages, { role: 'user', text: label }], awaiting: false, options: [], freeText: '' }));
+    const step = this.state.step;
+    if (step === 'refine') { setTimeout(() => this.go('confirm'), 700); return; }
+    if (step < this.SCRIPT.length - 1) {
+      const next = step + 1;
+      this.setState({ step: next });
+      setTimeout(() => this.pushAI(next), 650);
+    } else {
+      setTimeout(() => this.go('confirm'), 800);
+    }
+  }
+  sendFree = () => { const t = (this.state.freeText || '').trim(); if (t) this.pickOption(t); };
+
+  reopenClarify = () => {
+    this.setState({ screen: 'clarify', step: 'refine' });
+    setTimeout(() => this.pushAI('refine'), 320);
+  };
+
+  LOADING = ['正在从历史长河中，寻找与你相似的人……','正在翻阅那些曾经穿过黑夜的文字……','正在辨认这个困惑背后，更古老的母题……'];
+  goFlip = () => {
+    this.setState({ screen: 'flip', loadingIdx: 0 });
+    let i = 0;
+    this.flipTimer = setInterval(() => {
+      i++;
+      if (i >= this.LOADING.length) { clearInterval(this.flipTimer); this.go('motif'); return; }
+      this.setState({ loadingIdx: i });
+    }, 1500);
+  };
+  componentWillUnmount() { if (this.flipTimer) clearInterval(this.flipTimer); }
+
+  goEchoes = () => this.go('echoes');
+  refreshEchoes = () => {
+    if (this.state.refreshCount >= 3) return;
+    this.setState(s => ({ batch: (s.batch + 1) % this.BATCHES.length, refreshCount: s.refreshCount + 1 }));
+  };
+
+  openEcho(e) { this.setState({ activeEcho: e, screen: 'detail', fromRiver: false }); }
+  openRecord(l) { this.setState({ activeEcho: l, screen: 'detail', fromRiver: true }); }
+  backFromDetail = () => this.go(this.state.fromRiver ? 'river' : 'echoes');
+
+  collect = () => {
+    const e = this.state.activeEcho;
+    if (!e || this.state.collectedIds.includes(e.id)) return;
+    const streams = this.state.streams.map(s => ({ ...s, lamps: [...s.lamps] }));
+    let target = streams.find(s => s.motif === (e.motif || this.MOTIF.name));
+    if (!target) { target = { motif: e.motif || this.MOTIF.name, lamps: [] }; streams.unshift(target); }
+    target.lamps = [{ ...e, name: e.name }, ...target.lamps];
+    this.setState({ collectedIds: [...this.state.collectedIds, e.id], streams, toast: true });
+    setTimeout(() => this.setState({ toast: false }), 2400);
+  };
+
+  renderVals() {
+    const s = this.state;
+    const screen = s.screen;
+    const collectedActive = !!(s.activeEcho && s.collectedIds.includes(s.activeEcho.id));
+    const lampCount = s.streams.reduce((n, st) => n + st.lamps.length, 0);
+    const unlockedCount = s.streams.length;
+    const lockedCount = Math.max(0, this.MOTIF_TOTAL - unlockedCount);
+    const hasStreams = unlockedCount > 0;
+    const navBtn = (active) => "flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:none;border:none;cursor:pointer;font-family:'Noto Serif SC',serif;font-size:11px;letter-spacing:2px;color:" + (active ? '#f0e6cf' : 'rgba(214,220,228,0.45)') + ";";
+    const navDot = (active) => "width:6px;height:6px;border-radius:50%;background:" + (active ? "radial-gradient(circle,#fff0cf,#e0b876)" : "rgba(143,166,196,0.4)") + ";" + (active ? "box-shadow:0 0 10px 2px rgba(232,207,160,0.6);" : "");
+
+    const tagStyle = (sel) => 'background:' + (sel ? 'rgba(207,222,240,0.92)' : 'rgba(255,255,255,0.04)') +
+      ';border:1px solid ' + (sel ? 'rgba(207,222,240,0.92)' : 'rgba(255,255,255,0.14)') +
+      ';color:' + (sel ? '#13202e' : 'rgba(214,220,228,0.8)') +
+      ";border-radius:22px;padding:8px 16px;font-family:'Noto Serif SC',serif;font-size:13px;letter-spacing:1px;cursor:pointer;";
+
+    const bubbleStyle = (role) => role === 'user'
+      ? 'max-width:80%;background:linear-gradient(180deg,#e9edf3,#cdd8e6);color:#16202c;border-radius:16px 16px 4px 16px;padding:13px 16px;font-size:14px;line-height:1.7;'
+      : 'max-width:84%;background:rgba(255,255,255,0.055);border:1px solid rgba(255,255,255,0.10);color:#e8ecf2;border-radius:16px 16px 16px 4px;padding:14px 17px;font-size:14px;line-height:1.85;';
+    const rowStyle = (role) => 'display:flex;animation:bubblein .4s ease;justify-content:' + (role === 'user' ? 'flex-end' : 'flex-start') + ';';
+
+    const flyWords = ['去留','亲情','远行','功名','孤独','时间','无常','失败','尊严'];
+    const flyPos = [
+      'left:14%;top:62%;animation-delay:0s','left:70%;top:20%;animation-delay:.6s','left:40%;top:78%;animation-delay:1.1s',
+      'left:78%;top:60%;animation-delay:1.6s','left:22%;top:24%;animation-delay:2.1s','left:55%;top:40%;animation-delay:2.6s',
+      'left:10%;top:42%;animation-delay:3.1s','left:64%;top:80%;animation-delay:3.6s','left:46%;top:14%;animation-delay:4.1s'
+    ];
+
+    return {
+      isHome: screen === 'home', isInput: screen === 'input', isClarify: screen === 'clarify',
+      isConfirm: screen === 'confirm', isFlip: screen === 'flip', isMotif: screen === 'motif',
+      isEchoes: screen === 'echoes', isDetail: screen === 'detail', isRiver: screen === 'river',
+      isProfile: screen === 'profile',
+      showNav: screen === 'home' || screen === 'river' || screen === 'profile',
+      goAsk: this.goHome, goProfile: this.goProfile, backToChat: () => this.go('clarify'),
+      navAsk: navBtn(screen === 'home'), navRiver: navBtn(screen === 'river'), navMe: navBtn(screen === 'profile'),
+      dotAsk: navDot(screen === 'home'), dotRiver: navDot(screen === 'river'), dotMe: navDot(screen === 'profile'),
+      motifEn: this.MOTIF.en, lockedCount, hasStreams, noStreams: !hasStreams, motifCount: unlockedCount,
+      goHome: this.goHome, goInput: this.goInput, goRiver: this.goRiver, goMotif: this.goMotif,
+      goFlip: this.goFlip, goEchoes: this.goEchoes, startClarify: this.startClarify,
+      reopenClarify: this.reopenClarify, refreshEchoes: this.refreshEchoes,
+      backFromDetail: this.backFromDetail, collect: this.collect,
+      onInput: this.onInput, onFree: this.onFree, sendFree: this.sendFree,
+      inputText: s.inputText, freeText: s.freeText,
+      tags: this.TAGS.map(t => ({ label: t, toggle: () => this.toggleTag(t), style: tagStyle(s.selectedTags.includes(t)) })),
+      examples: this.EXAMPLES.map(x => ({ text: x, fill: () => this.fillExample(x) })),
+      messages: s.messages.map(m => ({ text: m.text, row: rowStyle(m.role), bubble: bubbleStyle(m.role) })),
+      typing: s.typing, awaiting: s.awaiting, options: s.options,
+      userQuestion: this.userQ(), essence: this.ESSENCE,
+      loadingLine: this.LOADING[s.loadingIdx],
+      flyKeywords: flyWords.map((w, i) => ({ word: w, style: 'position:absolute;' + flyPos[i] + ";font-family:'Noto Serif SC',serif;font-size:" + (18 + (i % 3) * 6) + 'px;font-weight:300;color:rgba(207,222,240,' + (0.5 + (i % 3) * 0.12) + ');animation:floatup 5.5s ease-in-out infinite;' })),
+      motifName: this.MOTIF.name, motifLine: this.MOTIF.line,
+      echoes: this.BATCHES[s.batch].map(e => ({ ...e, open: () => this.openEcho(e) })),
+      canRefresh: s.refreshCount < 3, noRefresh: s.refreshCount >= 3, refreshLeft: 3 - s.refreshCount,
+      activeEcho: s.activeEcho || { detail: {} },
+      notCollected: !collectedActive, collectedActive,
+      streams: s.streams.map(st => ({ motif: st.motif, empty: st.lamps.length === 0, lamps: st.lamps.map(l => ({ name: l.name, open: () => this.openRecord(l) })) })),
+      lampCount,
+      toast: s.toast,
+    };
+  }
+}
+function this_RESTATE() { return '你担心刚走进一个新环境时，达不到别人的期待，害怕那个“还不够好”的自己被看见。'; }
+</script>
+</body>
+</html>

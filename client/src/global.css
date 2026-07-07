@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+* { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+html, body, #root { margin: 0; padding: 0; height: 100%; }
+::-webkit-scrollbar { width: 0; height: 0; }
+
+@keyframes amb { 0%{transform:translate(0,0)} 50%{transform:translate(-2.5%,-1.8%)} 100%{transform:translate(0,0)} }
+@keyframes flowband { 0%{transform:translateX(-6%) translateY(0)} 50%{transform:translateX(4%) translateY(-2%)} 100%{transform:translateX(-6%) translateY(0)} }
+@keyframes floatup { 0%{opacity:.15;transform:translateY(26px) scale(.96)} 18%{opacity:.85} 80%{opacity:.85} 100%{opacity:.15;transform:translateY(-34px) scale(1.02)} }
+@keyframes ripple { 0%{transform:scale(.35);opacity:.55} 100%{transform:scale(2.6);opacity:0} }
+@keyframes lampglow { 0%,100%{opacity:.55;transform:scale(1)} 50%{opacity:1;transform:scale(1.14)} }
+@keyframes fadeup { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadein { from{opacity:0} to{opacity:1} }
+@keyframes rise { from{opacity:0;transform:translateY(24px) scale(.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+@keyframes spin { to{transform:rotate(360deg)} }
+@keyframes breathe { 0%,100%{opacity:.4} 50%{opacity:.85} }
+@keyframes bubblein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pageturn { 0%{transform:rotateY(0)} 100%{transform:rotateY(-158deg)} }
+@keyframes shimmer { 0%{background-position:-180% 0} 100%{background-position:180% 0} }
+@keyframes dots { 0%,80%,100%{opacity:.25} 40%{opacity:1} }
+@keyframes bookfloat { 0%,100%{transform:translateX(-50%) translateY(0) rotateX(8deg)} 50%{transform:translateX(-50%) translateY(-9px) rotateX(8deg)} }
+@keyframes travel { from{offset-distance:0%;opacity:0} 8%{opacity:1} 92%{opacity:1} to{offset-distance:100%;opacity:0} }
+@keyframes wmdrift { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-52%,-48%) scale(1.04)} }
+@keyframes nodepulse { 0%,100%{opacity:.45;box-shadow:0 0 6px 1px rgba(207,222,240,0.4)} 50%{opacity:1;box-shadow:0 0 14px 4px rgba(207,222,240,0.7)} }
+@keyframes grain { 0%{transform:translate(0,0)} 100%{transform:translate(-36px,28px)} }
+@keyframes beam { 0%,100%{opacity:.4} 50%{opacity:.85} }
+@keyframes inputglow { 0%,100%{box-shadow:0 0 0 1px rgba(143,166,196,0.2),0 0 26px -10px rgba(207,222,240,0.4)} 50%{box-shadow:0 0 0 1px rgba(207,222,240,0.42),0 0 44px -6px rgba(207,222,240,0.6)} }
+@keyframes aura { 0%,100%{opacity:.45;transform:translate(-50%,-50%) scale(1)} 50%{opacity:.85;transform:translate(-50%,-50%) scale(1.07)} }
