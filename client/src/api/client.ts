@@ -10,8 +10,19 @@ import type {
   AuthUser,
 } from './types';
 
+const PROD_API_BASE = 'https://timewise-server.onrender.com';
+const API_BASE = (
+  import.meta.env.DEV
+    ? ''
+    : (import.meta.env.VITE_API_BASE || PROD_API_BASE)
+).replace(/\/$/, '');
+
+function apiUrl(path: string): string {
+  return `${API_BASE}${path}`;
+}
+
 async function postJSON<T>(path: string, body: unknown): Promise<T> {
-  const res = await fetch(path, {
+  const res = await fetch(apiUrl(path), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
